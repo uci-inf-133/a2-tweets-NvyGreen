@@ -62,7 +62,32 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-        return "";
+        let comp_string = this.text;
+        comp_string = comp_string.replace("#Runkeeper", "");
+        let pattern = new RegExp('https://t.co/[A-Za-z0-9]+');
+        comp_string = comp_string.replace(pattern, "");
+
+        pattern = new RegExp('Just completed a (.+) with @Runkeeper. Check it out!');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just posted a (.+) with @Runkeeper. Check it out!');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just completed a (.+?) -');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just posted a (.+?) -');
+        comp_string = comp_string.replace(pattern, "");
+        comp_string = comp_string.replace('TomTom MySports Watch', "");
+
+        pattern = new RegExp('Achieved a new personal record with (.+)')
+        comp_string = comp_string.replace('pattern', "");
+        comp_string = comp_string.replace('#FitnessAlerts', "");
+
+        pattern = new RegExp('Watch my (.+) right now with @Runkeeper Live');
+        comp_string = comp_string.replace(pattern, "");
+        comp_string = comp_string.replace('#RKLive', "");
+
+        comp_string = comp_string.trim();
+
+        return comp_string;
     }
 
     get activityType():string {
