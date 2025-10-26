@@ -10,13 +10,34 @@ class Tweet {
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
         //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
-        return "unknown";
+        if (this.text.includes('Just completed') || this.text.includes('Just posted') || this.text.includes('just completed') || this.text.includes('just posted')) {
+            return 'completed_event';
+        }
+
+        if (this.text.startsWith('Achieved a')) {
+            return 'achievement';
+        }
+
+        if (this.text.startsWith('Watch my')) {
+            return 'live_event';
+        }
+
+        return 'miscellaneous';
     }
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
         //TODO: identify whether the tweet is written
-        return false;
+        let comp_string = this.text;
+        comp_string.replace("#Runkeeper", "");
+        comp_string.replace('/https:\/\/t\.co\/\S+$/', "");
+        comp_string.replace('/Just completed a (.+) with @Runkeeper\. Check it out!/', "");
+        comp_string.replace('/Just posted a (.+) with @Runkeeper\. Check it out!/', "");
+        comp_string.replace('/Just completed a (.+?) -/', "");
+        comp_string.replace('/Just posted a (.+?) -/', "");
+
+
+        return true;
     }
 
     get writtenText():string {
