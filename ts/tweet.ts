@@ -29,23 +29,32 @@ class Tweet {
     get written():boolean {
         //TODO: identify whether the tweet is written
         let comp_string = this.text;
-        comp_string.replace("#Runkeeper", "");
-        comp_string.replace('/https:\/\/t\.co\/\S+$/', "");
+        comp_string = comp_string.replace("#Runkeeper", "");
+        let pattern = new RegExp('https://t.co/[A-Za-z0-9]+');
+        comp_string = comp_string.replace(pattern, "");
 
-        comp_string.replace('/Just completed a (.+) with @Runkeeper\. Check it out!/', "");
-        comp_string.replace('/Just posted a (.+) with @Runkeeper\. Check it out!/', "");
-        comp_string.replace('/Just completed a (.+?) -/', "");
-        comp_string.replace('/Just posted a (.+?) -/', "");
-        comp_string.replace('TomTom MySports Watch', "");
+        pattern = new RegExp('Just completed a (.+) with @Runkeeper. Check it out!');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just posted a (.+) with @Runkeeper. Check it out!');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just completed a (.+?) -');
+        comp_string = comp_string.replace(pattern, "");
+        pattern = new RegExp('Just posted a (.+?) -');
+        comp_string = comp_string.replace(pattern, "");
+        comp_string = comp_string.replace('TomTom MySports Watch', "");
 
-        comp_string.replace('/Achieved a new personal record with #Runkeeper: (.+)/', "");
+        pattern = new RegExp('Achieved a new personal record with (.+)')
+        comp_string = comp_string.replace('pattern', "");
+        comp_string = comp_string.replace('#FitnessAlerts', "");
 
-        comp_string.replace('/Watch my (.+) right now with @Runkeeper Live/', "");
-        comp_string.replace('#RKLive', "");
+        pattern = new RegExp('Watch my (.+) right now with @Runkeeper Live');
+        comp_string = comp_string.replace(pattern, "");
+        comp_string = comp_string.replace('#RKLive', "");
+
         comp_string = comp_string.trim();
 
 
-        return comp_string.length == 0;
+        return comp_string.length > 0;
     }
 
     get writtenText():string {
