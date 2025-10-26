@@ -31,13 +31,21 @@ class Tweet {
         let comp_string = this.text;
         comp_string.replace("#Runkeeper", "");
         comp_string.replace('/https:\/\/t\.co\/\S+$/', "");
+
         comp_string.replace('/Just completed a (.+) with @Runkeeper\. Check it out!/', "");
         comp_string.replace('/Just posted a (.+) with @Runkeeper\. Check it out!/', "");
         comp_string.replace('/Just completed a (.+?) -/', "");
         comp_string.replace('/Just posted a (.+?) -/', "");
+        comp_string.replace('TomTom MySports Watch', "");
+
+        comp_string.replace('/Achieved a new personal record with #Runkeeper: (.+)/', "");
+
+        comp_string.replace('/Watch my (.+) right now with @Runkeeper Live/', "");
+        comp_string.replace('#RKLive', "");
+        comp_string = comp_string.trim();
 
 
-        return true;
+        return comp_string.length == 0;
     }
 
     get writtenText():string {
