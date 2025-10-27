@@ -94,15 +94,16 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
+
         //TODO: parse the activity type from the text of the tweet
+        let pattern = null;
         if (this.text.startsWith('Just completed')) {
-            let pattern = new RegExp('Just completed a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
-            let match = this.text.match(pattern);
-            if (match != null) {
-                return match[1];
-            }
+            pattern = new RegExp('Just completed a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
         } else if (this.text.startsWith('Just posted')) {
-            let pattern = new RegExp('Just posted a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
+            pattern = new RegExp('Just posted a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
+        }
+
+        if (pattern != null) {
             let match = this.text.match(pattern);
             if (match != null) {
                 return match[1];
@@ -116,6 +117,30 @@ class Tweet {
         if(this.source != 'completed_event') {
             return 0;
         }
+
+        let distance = 0.0;
+        let unit = "";
+        let pattern = null;
+        if (this.text.startsWith('Just completed')) {
+            pattern = new RegExp('Just completed a (\\d+.\\d{2}) (mi|km)');
+        } else if (this.text.startsWith('Just posted')) {
+            pattern = new RegExp('Just posted a (\\d+.\\d{2}) (mi|km)');
+        }
+
+        if (pattern != null) {
+            let match = this.text.match(pattern);
+            if (match != null) {
+                distance = parseFloat(match[1]);
+                unit = match[2];
+
+                if (unit == "km") {
+                    distance /= 1.609;
+                }
+
+                return distance;
+            }
+        }
+
         //TODO: prase the distance from the text of the tweet
         return 0;
     }
