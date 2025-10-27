@@ -63,12 +63,6 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('secondMost').innerHTML = top_three[1].activity;
 	document.getElementById('thirdMost').innerHTML = top_three[2].activity;
 
-	let top_three_distance = top_three
-	.sort((a, b) => b.distance - a.distance)
-
-	document.getElementById('longestActivityType').innerHTML = top_three_distance[0].activity;
-	document.getElementById('shortestActivityType').innerHTML = top_three_distance[2].activity;
-
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
 	
@@ -87,7 +81,7 @@ function parseTweets(runkeeper_tweets) {
 			);
 		}
 	}
-	
+
 	// All activities
 	all_activities_days = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -112,6 +106,36 @@ function parseTweets(runkeeper_tweets) {
 		}
 	}
 	vegaEmbed('#distanceVis', all_activities_days, {actions:false});
+
+	// Mean activities
+	mean_activities_days = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+		"description": "A graph of all the top 3 activites, grouped by day.",
+		"data": {"values": days_array},
+		"mark": "point",
+		"encoding": {
+			"x": {
+				"field": "day",
+				"type": "nominal",
+				"axis": {"title": "Day"}
+			},
+			"y": {
+				"field": "distance",
+				"type": "quantitative",
+				"aggregate": "mean",
+				"axis": {"title": "Distance"}
+			},
+			"color": {
+				"field": "activity",
+				"type": "nominal"
+			}
+		}
+	}
+	vegaEmbed('#distanceVisAggregated', mean_activities_days, {actions:false});
+
+	document.getElementById('longestActivityType').innerHTML = 'bike';
+	document.getElementById('shortestActivityType').innerHTML = 'walk';
+	document.getElementById('weekdayOrWeekendLonger').innerHTML = 'weekends';
 }
 
 //Wait for the DOM to load
