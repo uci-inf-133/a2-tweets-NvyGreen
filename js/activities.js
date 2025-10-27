@@ -141,4 +141,21 @@ function parseTweets(runkeeper_tweets) {
 //Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', function (event) {
 	loadSavedRunkeeperTweets().then(parseTweets);
+	document.getElementById('distanceVisAggregated').style.display = 'none';
+
+	let button = document.getElementById('aggregate');
+	button.addEventListener('click', function() {
+		let allDistance = document.getElementById('distanceVis');
+		let meanDistance = document.getElementById('distanceVisAggregated');
+
+		if (allDistance.style.display == 'none') {
+			allDistance.style.display = 'inline-block';
+			meanDistance.style.display = 'none';
+			button.innerHTML = 'Show means';
+		} else if (meanDistance.style.display == 'none') {
+			allDistance.style.display = 'none';
+			meanDistance.style.display = 'inline-block';
+			button.innerHTML = 'Show all activities';
+		}
+	});
 });
