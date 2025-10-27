@@ -95,7 +95,21 @@ class Tweet {
             return "unknown";
         }
         //TODO: parse the activity type from the text of the tweet
-        return "";
+        if (this.text.startsWith('Just completed')) {
+            let pattern = new RegExp('Just completed a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
+            let match = this.text.match(pattern);
+            if (match != null) {
+                return match[1];
+            }
+        } else if (this.text.startsWith('Just posted')) {
+            let pattern = new RegExp('Just posted a \\d+.\\d{2} (?:mi|km) ([A-Za-z ]*?) (?=w|-)');
+            let match = this.text.match(pattern);
+            if (match != null) {
+                return match[1];
+            }
+        }
+
+        return "unknown";
     }
 
     get distance():number {
