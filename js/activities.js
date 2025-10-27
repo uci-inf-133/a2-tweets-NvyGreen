@@ -10,16 +10,65 @@ function parseTweets(runkeeper_tweets) {
 	});
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
+	let activity_array = [];
+	for (let tweet of tweet_array) {
+		if (tweet.activityType != "unknown") {
+			let activity_obj = activity_array.find(item => item.activity == tweet.activityType);
+			if (activity_obj) {
+				activity_obj.tweets += 1;
+				activity_obj.distance += tweet.distance;
+			} else {
+				activity_array.push(
+					{
+						"activity": tweet.activityType,
+						"distance": tweet.distance,
+						"tweets": 1
+					}
+				);
+			}
+		}
+	}
+	console.log(activity_array);
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
-	    "values": tweet_array
-	  }
+	    "values": activity_array
+	  },
 	  //TODO: Add mark and encoding
+	  "mark": "bar",
+	  "encoding": {
+		"x": {
+			"field": "activity",
+			"type": "nominal",
+			"axis": {"title": "Activity"}
+		},
+		"y": {
+			"field": "tweets",
+			"type": "quantitative",
+			"axis": {"title": "# of Tweets"}
+		}
+	  }
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+
+	// Filling in the HTML elements
+	document.getElementById('numberActivities').innerText = activity_array.length;
+
+	let top_three = activity_array
+	.sort((a, b) => b.tweets - a.tweets)
+	.slice(0, 3);
+	
+	document.getElementById('firstMost').innerHTML = top_three[0].activity;
+	document.getElementById('secondMost').innerHTML = top_three[1].activity;
+	document.getElementById('thirdMost').innerHTML = top_three[2].activity;
+
+	let top_three_distance = top_three
+	.sort((a, b) => b.distance - a.distance)
+
+	document.getElementById('longestActivityType').innerHTML = top_three_distance[0].activity;
+	document.getElementById('shortestActivityType').innerHTML = top_three_distance[2].activity;
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
