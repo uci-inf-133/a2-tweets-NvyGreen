@@ -59,9 +59,9 @@ function parseTweets(runkeeper_tweets) {
 	.sort((a, b) => b.tweets - a.tweets)
 	.slice(0, 3);
 	
-	document.getElementById('firstMost').innerHTML = top_three[0].activity;
-	document.getElementById('secondMost').innerHTML = top_three[1].activity;
-	document.getElementById('thirdMost').innerHTML = top_three[2].activity;
+	document.getElementById('firstMost').innerText = top_three[0].activity;
+	document.getElementById('secondMost').innerText = top_three[1].activity;
+	document.getElementById('thirdMost').innerText = top_three[2].activity;
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
@@ -133,9 +133,9 @@ function parseTweets(runkeeper_tweets) {
 	}
 	vegaEmbed('#distanceVisAggregated', mean_activities_days, {actions:false});
 
-	document.getElementById('longestActivityType').innerHTML = 'bike';
-	document.getElementById('shortestActivityType').innerHTML = 'walk';
-	document.getElementById('weekdayOrWeekendLonger').innerHTML = 'weekends';
+	document.getElementById('longestActivityType').innerText = 'bike';
+	document.getElementById('shortestActivityType').innerText = 'walk';
+	document.getElementById('weekdayOrWeekendLonger').innerText = 'weekends';
 }
 
 //Wait for the DOM to load
@@ -151,11 +151,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
 		if (allDistance.style.display == 'none') {
 			allDistance.style.display = 'inline-block';
 			meanDistance.style.display = 'none';
-			button.innerHTML = 'Show means';
+			button.innerText = 'Show means';
 		} else if (meanDistance.style.display == 'none') {
 			allDistance.style.display = 'none';
 			meanDistance.style.display = 'inline-block';
-			button.innerHTML = 'Show all activities';
+			button.innerText = 'Show all activities';
 		}
 	});
 });

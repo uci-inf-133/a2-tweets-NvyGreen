@@ -12,6 +12,27 @@ function parseTweets(runkeeper_tweets) {
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
 	document.getElementById('numberTweets').innerText = tweet_array.length;
+
+	// Get timeframe
+	let time_tweets = tweet_array
+	.slice()
+	.sort((a, b) => b.date - a.date);
+
+	const start_date = time_tweets[time_tweets.length - 1].time
+	.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+	const end_date = time_tweets[0].time
+	.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric'
+	});
+
+	document.getElementById('firstDate').innerText = start_date;
+	document.getElementById('lastDate').innerText = end_date;
 	
 	// Get categories
 	let completed = 0;
