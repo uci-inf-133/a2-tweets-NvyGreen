@@ -118,6 +118,7 @@ class Tweet {
             return 0;
         }
 
+        //TODO: prase the distance from the text of the tweet
         let distance = 0.0;
         let unit = "";
         let pattern = null;
@@ -141,12 +142,24 @@ class Tweet {
             }
         }
 
-        //TODO: prase the distance from the text of the tweet
         return 0;
     }
 
     getHTMLTableRow(rowNumber:number):string {
         //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
+        let new_text = this.text;
+        let pattern = new RegExp('https://t.co/[A-Za-z0-9]+');
+        let match = new_text.match(pattern);
+
+        if (match) {
+            new_text = new_text.replace(pattern, `<a href="${match[0]}">${match[0]}</a>`);
+            return `<tr>
+                        <td>${rowNumber}</td>
+                        <td>${this.activityType}</td>
+                        <td>${new_text}</td>
+                    </tr>`;
+        }
+
         return "<tr></tr>";
     }
 }
