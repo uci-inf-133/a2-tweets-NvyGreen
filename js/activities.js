@@ -110,7 +110,7 @@ function parseTweets(runkeeper_tweets) {
 	// Mean activities
 	mean_activities_days = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-		"description": "A graph of all the top 3 activites, grouped by day.",
+		"description": "A graph of the means of the top 3 activites, grouped by day.",
 		"data": {"values": days_array},
 		"mark": "point",
 		"encoding": {
